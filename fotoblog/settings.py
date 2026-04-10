@@ -121,3 +121,7 @@ STATIC_URL = "static/"
 AUTH_USER_MODEL = 'authentication.User'
 
 LOGIN_URL = "login-page"
+
+LOGIN_REDIRECT_URL = 'home-page'
+
+LOGOUT_REDIRECT_URL = "login-page"
