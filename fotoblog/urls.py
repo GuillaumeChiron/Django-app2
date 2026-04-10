@@ -28,6 +28,8 @@ urlpatterns = [
         redirect_authenticated_user=True),
         name="login-page"),
 
+    path("signup/", authentication.views.signup_page, name="signup-page"),
+
     path("logout/",
         LogoutView.as_view(),
         name="logout-page"),
