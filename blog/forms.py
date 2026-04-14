@@ -1,5 +1,4 @@
 from django import forms
-
 from blog import models
 
 

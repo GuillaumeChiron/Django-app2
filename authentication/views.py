@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.views.generic import View
 
 from . import forms
@@ -8,11 +9,13 @@ from . import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 
+
 class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     pass
 
+
 def signup_page(request):
-    form =  forms.SignupForm()
+    form = forms.SignupForm()
     if request.method == "POST":
         form = forms.SignupForm(request.POST)
         if form.is_valid():
@@ -21,29 +24,15 @@ def signup_page(request):
             return redirect(settings.LOGIN_REDIRECT_URL)
     return render(request, "authentication/signup_page.html", {"form": form})
 
-# class LoginPageView(View):
-#     template_name = 'authentication/login_page.html'
-#     form_class = forms.LoginForm
 
-#     def get(self, request):
-#         form = self.form_class()
-#         message = ''
-#         return render(request, self.template_name, context={'form': form, 'message': message})
-        
-#     def post(self, request):
-#         form = self.form_class(request.POST)
-#         if form.is_valid():
-#             user = authenticate(
-#                 username=form.cleaned_data['username'],
-#                 password=form.cleaned_data['password'],
-#             )
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect('home-page')
-#         message = 'Identifiants incorrects.'
-#         return render(request, self.template_name, context={'form': form, 'message': message})
-
-
-# def logout_user(request):
-#     logout(request)
-#     return redirect("login-page")
+@login_required
+def upload_profil_photo(request):
+    form = forms.UploadProfilePhotoForm(instance=request.user)
+    if request.method == "POST":
+        form = forms.UploadProfilePhotoForm(
+            request.POST, request.FILES, instance=request.user
+        )
+        if form.is_valid():
+            form.save()
+            return redirect("home-page")
+    return render(request, "authentication/upload_profil_photo.html", {"form": form})

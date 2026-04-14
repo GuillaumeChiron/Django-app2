@@ -55,6 +55,11 @@ urlpatterns = [
     ),
     path("home/", blog.views.home_page, name="home-page"),
     path("photo/upload/", blog.views.photo_upload, name="photo-upload-page"),
+    path(
+        "profil_photo/upload/",
+        authentication.views.upload_profil_photo,
+        name="profil-photo-upload-page",
+    ),
 ]
 
 if settings.DEBUG:
