@@ -2,17 +2,17 @@
 
 {% block content %}
 
-    <h2>Votre flux</h2>
+    <h2 class="home_title">Votre flux</h2>
     
     <div class="grid-container">
-
-         {% for photo in photos %}
-        <img src="{{photo.image.url}}">
-        <p>{{photo.caption}}</p>
-        {% endfor %}
-
+        
+            {% for photo in photos %}
+            <div>
+                <img src="{{photo.image.url}}">
+            <p>{{photo.caption}}</p>
+            </div>
+            {% endfor %}
+        
     </div>
 
-   
-    
 {% endblock content %}

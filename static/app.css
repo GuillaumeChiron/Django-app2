@@ -5,7 +5,7 @@ html {
 /* The sidebar menu */
 .sidebar {
     height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 220px; /* Set the width of the sidebar */
+    width: 15%; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
@@ -32,27 +32,38 @@ html {
 
 /* Style page content */
 .main {
-    margin-left: 240px; /* Same as the width of the sidebar */
+    margin-left: 15%; /* Same as the width of the sidebar */
     padding: 20px;
 }
 
 .avatar {
-    width: 80%;
+    width: 20%;
+    height: auto;
     border-radius: 10%;
     display: block;
-    margin: auto;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    padding: 20px;
+.home_title {
     text-align: center;
 }
 
-.post img {
-    width: 80%;
-    border-radius: 5px;
+.grid-container {
+    width: 500px;
+    height: auto;
+    margin-left: 250px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 20px;
+    text-align: center;
+    gap: 20px;
+}
+
+.grid-container img {
+    width: 500px;
+    height: 300px;
+    border: 2px solid #1d3030;
+    border-radius: 10px;
+    object-fit: cover;
 }
