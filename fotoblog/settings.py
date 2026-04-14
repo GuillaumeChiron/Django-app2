@@ -56,7 +56,9 @@ ROOT_URLCONF = "fotoblog.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR.joinpath('templates'),],
+        "DIRS": [
+            BASE_DIR.joinpath("templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -87,16 +89,13 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': 8,
-        }
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 8,
+        },
     },
-
     {"NAME": "authentication.validators.ContainsLetterValidator"},
-
-    {"NAME": "authentication.validators.ContainsNumbersValidator"}
-
+    {"NAME": "authentication.validators.ContainsNumbersValidator"},
 ]
 
 
@@ -117,10 +116,14 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = "authentication.User"
 
 LOGIN_URL = "login-page"
 
-LOGIN_REDIRECT_URL = 'home-page'
+LOGIN_REDIRECT_URL = "home-page"
 
 LOGOUT_REDIRECT_URL = "login-page"
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = BASE_DIR.joinpath("media/")
