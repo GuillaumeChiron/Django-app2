@@ -60,6 +60,8 @@ urlpatterns = [
         authentication.views.upload_profil_photo,
         name="profil-photo-upload-page",
     ),
+    path("blog/create/", blog.views.blog_and_photo_upload, name="blog-create"),
+    path("blog/<int:blog_id>/", blog.views.blog_view, name="blog-view"),
 ]
 
 if settings.DEBUG:
