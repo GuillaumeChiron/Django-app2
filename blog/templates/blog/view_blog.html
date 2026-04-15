@@ -6,6 +6,8 @@
     <img src="{{ blog.photo.image.url }}">
     <p>{{ blog.photo.caption }}</p>
     <p>{{ blog.content }}</p>
+    <p>Auteur : {{blog.author}}</p>
+    <p><a href="{% url 'blog-edit' blog.id %}">Modifier le billet</a></p>
 </div>
 
 

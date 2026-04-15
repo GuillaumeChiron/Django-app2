@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Modifier le billet</h2>
+<form method="post">
+    {{ edit_form.as_p }}
+    {% csrf_token %}
+    <button type="submit" , name="edit_form">Sauvegarder</button>
+</form>
+<hr>
+<h3>Supprimer le billet ?</h3>
+<form method="post">
+    {{ delete_form }}
+    {% csrf_token %}
+    <button type="submit" , name="delete_form">Supprimer</button>
+</form>
+
+<p><a href="{% url 'blog-view' blog.id %}">Retour</a></p>
+
+{% endblock content %}
