@@ -63,6 +63,11 @@ urlpatterns = [
     path("blog/create/", blog.views.blog_and_photo_upload, name="blog-create"),
     path("blog/<int:blog_id>/", blog.views.blog_view, name="blog-view"),
     path("blog/<int:blog_id>/edit/", blog.views.edit_blog, name="blog-edit"),
+    path(
+        "blog/upload_photos/",
+        blog.views.create_multiple_photos,
+        name="create-multiple-photos",
+    ),
 ]
 
 if settings.DEBUG:
