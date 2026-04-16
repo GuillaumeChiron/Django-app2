@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.forms import formset_factory
 from blog import forms
 from blog import models
@@ -13,6 +13,7 @@ def home_page(request):
 
 
 @login_required
+@permission_required("blog.add_photo", raise_exception=True)
 def photo_upload(request):
     form = forms.PhotoForm()
     if request.method == "POST":
@@ -28,6 +29,7 @@ def photo_upload(request):
 
 
 @login_required
+@permission_required("blog.add_blog", raise_exception=True)
 def blog_and_photo_upload(request):
     photo_form = forms.PhotoForm()
     blog_form = forms.BlogForm()
@@ -42,6 +44,9 @@ def blog_and_photo_upload(request):
             blog.author = request.user
             blog.photo = photo
             blog.save()
+            blog.contributors.add(
+                request.user, through_defaults={"contribution": "Auteur principal"}
+            )
             return redirect("home-page")
     return render(
         request,
@@ -57,6 +62,7 @@ def blog_view(request, blog_id):
 
 
 @login_required
+@permission_required("blog.add_blog", raise_exception=True)
 def edit_blog(request, blog_id):
     blog = get_object_or_404(models.Blog, id=blog_id)
     edit_form = forms.BlogForm(instance=blog)
@@ -80,6 +86,7 @@ def edit_blog(request, blog_id):
 
 
 @login_required
+@permission_required("blog.add_photo", raise_exception=True)
 def create_multiple_photos(request):
     PhotoFormset = formset_factory(forms.PhotoForm, extra=5)
     formset = PhotoFormset()
@@ -93,3 +100,14 @@ def create_multiple_photos(request):
                     photo.save()
                     return redirect("home-page")
     return render(request, "blog/create_multiple_photos.html", {"formset": formset})
+
+
+@login_required
+def follow_usrers(request):
+    form = forms.FollowUsersForm(instance=request.user)
+    if request.method == "POST":
+        form = forms.FollowUsersForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("home-page")
+    return render(request, "blog/follow_users_form.html", {"form": form})

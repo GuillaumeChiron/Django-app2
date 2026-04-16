@@ -68,6 +68,7 @@ urlpatterns = [
         blog.views.create_multiple_photos,
         name="create-multiple-photos",
     ),
+    path("follow-users/", blog.views.follow_usrers, name="follow-users"),
 ]
 
 if settings.DEBUG:
