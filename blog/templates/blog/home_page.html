@@ -10,22 +10,9 @@
     {% for instance in blogs_and_photos %}
         <div>
             {% if instance|model_type == "Blog" %}
-                <a href="{% url 'blog-view' instance.id %}">
-                    <h4>Billet : {{ instance.title }}</h4>
-                    {% if instance.photo %}
-                        <img src="{{ instance.photo.image.url }}">
-                    {% endif %}
-                </a>
-                <p>Ecrit par {{ instance.contributors.all|join:", " }}</p>
-                <p>{{instance.date_created|get_posted_at_display}}</p>
-
+                {% include "blog/partials/blog_snippet.html" with blog=instance %}
             {% elif instance|model_type == "Photo" %}
-                <a href="#">
-                    <h4>Photo</h4>
-                    <img src="{{ instance.image.url }}">
-                </a>
-                <p>Prise par {% get_poster_display instance.uploader %}</p>
-                <p>{{instance.date_created|get_posted_at_display}}</p>
+                {% include "blog/partials/photo_snippet.html" with photo=instance %}
             {% endif %}
         </div>
     {% endfor %}
