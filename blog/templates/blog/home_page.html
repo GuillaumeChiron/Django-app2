@@ -17,7 +17,7 @@
                     {% endif %}
                 </a>
                 <p>Ecrit par {{ instance.contributors.all|join:", " }}</p>
-                <p>{{instance.date_created}}</p>
+                <p>{{instance.date_created|get_posted_at_display}}</p>
 
             {% elif instance|model_type == "Photo" %}
                 <a href="#">
@@ -25,7 +25,7 @@
                     <img src="{{ instance.image.url }}">
                 </a>
                 <p>Prise par {% get_poster_display instance.uploader %}</p>
-                <p>{{instance.date_created}}</p>
+                <p>{{instance.date_created|get_posted_at_display}}</p>
             {% endif %}
         </div>
     {% endfor %}
