@@ -1,15 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models import Q
 from django.forms import formset_factory
+
+from itertools import chain
+
 from blog import forms
 from blog import models
 
 
 @login_required
 def home_page(request):
-    photos = models.Photo.objects.all()
-    blogs = models.Blog.objects.all()
-    return render(request, "blog/home_page.html", {"photos": photos, "blogs": blogs})
+    blogs = models.Blog.objects.filter(
+        Q(contributors__in=request.user.follows.all()) | Q(starred=True)
+    )
+
+    photos = models.Photo.objects.filter(
+        uploader__in=request.user.follows.all()
+    ).exclude(blog__in=blogs)
+    blogs_and_photos = sorted(
+        chain(blogs, photos), key=lambda x: x.date_created, reverse=True
+    )
+    return render(
+        request, "blog/home_page.html", {"blogs_and_photos": blogs_and_photos}
+    )
 
 
 @login_required
@@ -41,7 +55,6 @@ def blog_and_photo_upload(request):
             photo.uploader = request.user
             photo.save()
             blog = blog_form.save(commit=False)
-            blog.author = request.user
             blog.photo = photo
             blog.save()
             blog.contributors.add(

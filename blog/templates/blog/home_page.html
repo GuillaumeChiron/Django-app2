@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load blog_extras %}
 
 {% block content %}
 
@@ -6,14 +7,27 @@
 
 <div class="grid-container">
 
-    {% for blog in blogs %}
-    <div>
-        <a href="{% url 'blog-view' blog.id %}">
-            <h4>Billet : {{ blog.title }}</h4>
-            <img src="{{ blog.photo.image.url }}">
-        </a>
-        <p>{{blog.author}}</p>
-    </div>
+    {% for instance in blogs_and_photos %}
+        <div>
+            {% if instance|model_type == "Blog" %}
+                <a href="{% url 'blog-view' instance.id %}">
+                    <h4>Billet : {{ instance.title }}</h4>
+                    {% if instance.photo %}
+                        <img src="{{ instance.photo.image.url }}">
+                    {% endif %}
+                </a>
+                <p>Ecrit par {{ instance.contributors.all|join:", " }}</p>
+                <p>{{instance.date_created}}</p>
+
+            {% elif instance|model_type == "Photo" %}
+                <a href="#">
+                    <h4>Photo</h4>
+                    <img src="{{ instance.image.url }}">
+                </a>
+                <p>Prise par {% get_poster_display instance.uploader %}</p>
+                <p>{{instance.date_created}}</p>
+            {% endif %}
+        </div>
     {% endfor %}
 
 </div>
