@@ -7,16 +7,20 @@
 
 <div class="grid-container">
 
-    {% for instance in blogs_and_photos %}
-        <div>
-            {% if instance|model_type == "Blog" %}
-                {% include "blog/partials/blog_snippet.html" with blog=instance %}
-            {% elif instance|model_type == "Photo" %}
-                {% include "blog/partials/photo_snippet.html" with photo=instance %}
-            {% endif %}
-        </div>
+    {% for instance in page_obj %}
+    <div>
+        {% if instance|model_type == "Blog" %}
+        {% include "blog/partials/blog_snippet.html" with blog=instance %}
+        {% elif instance|model_type == "Photo" %}
+        {% include "blog/partials/photo_snippet.html" with photo=instance %}
+        {% endif %}
+    </div>
     {% endfor %}
 
+</div>
+
+<div>
+    {% include "blog/partials/home_pagination.html" %}
 </div>
 
 {% endblock content %}
